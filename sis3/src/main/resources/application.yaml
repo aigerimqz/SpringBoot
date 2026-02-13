@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: sis3
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sis3db
+    username: sis3user
+    password: password123
+    driver-class-name: org.postgresql.Driver
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
