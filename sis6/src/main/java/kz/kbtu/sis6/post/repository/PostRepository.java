@@ -1,4 +1,11 @@
 package kz.kbtu.sis6.post.repository;
 
-public class PostRepository {
+import kz.kbtu.sis6.post.entity.Post;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
+
+@Repository
+public interface PostRepository extends JpaRepository<Post, UUID> {
 }
