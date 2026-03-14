@@ -39,7 +39,7 @@ public class PostController {
     @ApiResponse(responseCode = "404", description = "Post not found")
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse> getPostById(
-            @Parameter(description = "UUID of the post", example = "abc-123")
+            @Parameter(description = "UUID of the post", example = "164078eb-ac20-47aa-b5b7-53871e7943a9")
             @PathVariable UUID postId) {
         return ResponseEntity.ok(postService.getPostById(postId));
     }

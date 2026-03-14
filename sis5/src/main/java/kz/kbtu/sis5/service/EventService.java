@@ -3,6 +3,7 @@ package kz.kbtu.sis5.service;
 import kz.kbtu.sis5.dto.EventRequestDTO;
 import kz.kbtu.sis5.dto.EventResponseDTO;
 import kz.kbtu.sis5.entity.Event;
+import kz.kbtu.sis5.exception.ResourceNotFoundException;
 import kz.kbtu.sis5.mapper.EventMapper;
 import kz.kbtu.sis5.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +32,14 @@ public class EventService {
 
     public EventResponseDTO getEventById(Long id){
         log.info("Fetching event with id: {}", id);
-        Event event = eventRepository.findById(id).orElseThrow(() -> {
-            log.error("Event not found with id: {}", id);
-            return new ResourceAccessException("Event not found");
-        });
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Event not found with id: {}", id);
+                    return new ResourceNotFoundException("Event not found with id: " + id);
+                });
         return eventMapper.toResponseDTO(event);
-
     }
+
 
 
     public EventResponseDTO createEvent(EventRequestDTO dto){
@@ -48,11 +50,32 @@ public class EventService {
         return eventMapper.toResponseDTO(saved);
     }
 
+    public EventResponseDTO updateEvent(Long id, EventRequestDTO dto) {
+
+        log.info("Updating event with id: {}", id);
+
+        Event event = eventRepository.findById(id).orElseThrow(() -> {
+            log.error("Event not found with id: {}", id);
+            return new ResourceNotFoundException("Event not found: " + id);
+        });
+
+        event.setTitle(dto.getTitle());
+        event.setLocation(dto.getLocation());
+        event.setEventDate(dto.getEventDate());
+        event.setDescription(dto.getDescription());
+
+        Event updated = eventRepository.save(event);
+
+        log.info("Event {} updated successfully", id);
+
+        return eventMapper.toResponseDTO(updated);
+    }
+
     public void deleteEvent(Long id){
         log.info("Deleting event with id: {}", id);
         if(!eventRepository.existsById(id)){
             log.error("Cannot delete, event not found: {}", id);
-            throw new ResourceAccessException("Event not found");
+            throw new ResourceNotFoundException("Event not found: " + id);
         }
 
         eventRepository.deleteById(id);

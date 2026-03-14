@@ -3,6 +3,7 @@ package kz.kbtu.sis4.service;
 import kz.kbtu.sis4.dto.EventRequestDTO;
 import kz.kbtu.sis4.dto.EventResponseDTO;
 import kz.kbtu.sis4.entity.Event;
+import kz.kbtu.sis4.exception.ResourceNotFoundException;
 import kz.kbtu.sis4.mapper.EventMapper;
 import kz.kbtu.sis4.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +30,12 @@ public class EventService {
 
     public EventResponseDTO getEventById(Long id){
         log.info("Fetching event with id: {}", id);
-        Event event = eventRepository.findById(id).orElseThrow(() -> {
-            log.error("Event not found with id: {}", id);
-            return new ResourceAccessException("Event not found");
-        });
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Event not found with id: {}", id);
+                    return new ResourceNotFoundException("Event not found with id: " + id);
+                });
         return eventMapper.toResponseDTO(event);
-
     }
 
 
@@ -50,9 +51,8 @@ public class EventService {
         log.info("Deleting event with id: {}", id);
         if(!eventRepository.existsById(id)){
             log.error("Cannot delete, event not found: {}", id);
-            throw new ResourceAccessException("Event not found");
+            throw new ResourceNotFoundException("Event not found with id: " + id);
         }
-
         eventRepository.deleteById(id);
         log.info("Event {} deleted", id);
     }
