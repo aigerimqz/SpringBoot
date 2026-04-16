@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+
+  artifact-db:
+    image: postgres:15
+    container_name: artifact-db
+    environment:
+      POSTGRES_DB: artifact_db
+      POSTGRES_USER: aigerim
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5432:5432"
+    networks:
+      - cursed-net
+
+  owner-db:
+    image: postgres:15
+    container_name: owner-db
+    environment:
+      POSTGRES_DB: owner_db
+      POSTGRES_USER: aigerim
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5433:5432"
+    networks:
+      - cursed-net
+
+  artifact-service:
+    build: ./artifact.service
+    container_name: artifact-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://artifact-db:5432/artifact_db
+      SPRING_DATASOURCE_USERNAME: aigerim
+      SPRING_DATASOURCE_PASSWORD: password123
+    depends_on:
+      - artifact-db
+    networks:
+      - cursed-net
+
+  owner-service:
+    build: ./owner.service
+    container_name: owner-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://owner-db:5432/owner_db
+      SPRING_DATASOURCE_USERNAME: aigerim
+      SPRING_DATASOURCE_PASSWORD: password123
+      FEIGN_CLIENT_ARTIFACT-SERVICE_URL: http://artifact-service:8081
+    depends_on:
+      - owner-db
+      - artifact-service
+    networks:
+      - cursed-net
+
+networks:
+  cursed-net:
+    driver: bridge
