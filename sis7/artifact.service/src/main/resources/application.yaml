@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: artifact.service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/artifact_db
+    username: aigerim
+    password: password123
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

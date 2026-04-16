@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/sis1/sis1/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sis2/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sis3/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sis4/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sis5/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sis6/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sis7/artifact.service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sis7/notification.service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sis7/owner.service/src/main/java" charset="UTF-8" />
+  </component>
+</project>
