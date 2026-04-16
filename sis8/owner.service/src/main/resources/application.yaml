@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: owner.service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/owner_db
+    username: aigerim
+    password: password123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8082
+
+feign:
+  client:
+    artifact-service:
+      url: http://localhost:8081
